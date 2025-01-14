@@ -1,0 +1,32 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "mbbo"
+version = "0.0.1"
+description = "Black-box optimization project for Imperial College Professional Certificate in Artificial Intelligence and Machine Learning"
+authors = [
+  { name = "Mike Westcott" },
+]
+
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    
+]
+requires-python = "~=3.10"
+
+[tool.black]
+line-length = 99
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+)/
+'''
+
+[tool.ruff.lint.isort]
+known_first_party = ["mbbo"]
+force_sort_within_sections = true
