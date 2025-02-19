@@ -20,8 +20,266 @@ Function 7 Next point to submit: 0.476821-0.248196-0.242816-0.576157-0.162416-0.
 Function 8 Next point to submit: 0.221603-0.703755-0.674607-0.130295-0.376739-0.669444-0.136655-0.061316
 
 
+21st Jan:
+Attempt to set up NVidia solution but it requires NVIDIA Rapid which requires Linux. Looked into Jetbrains solution - not easily rerunnable - uses bayesmark wrapper around its own optimiser.
+Run bayesmark:
+bayesmark-init -dir D:\dev\BBO\MBBO\data -b test1
+bayesmark-launch -dir D:\dev\BBO\MBBO\data -b test1
+-errors because boston dataset was removed from scikit-learn in v1.2 but is required.
+Temporarily downgraded from 1.3.2 to 1.1.3 (breaks mlxtend)
+Ran but got errors in test-train-split before fitting the model - think I need something I can run from Python source and debug more easily. Bayesmark seems not to be maintained any more either.
+Tried installing hebo but also got errors when installing older numpy dependency - AttributeError: module 'pkgutil' has no attribute 'ImpImporter'. Did you mean: 'zipimporter'?
+
+
+
+
+
 Thoughts by function:
 
+(1) Maximize exploration until 2 minima found (already got one: 6.501140597987643543e-01,6.815263520602100611e-01,-3.606062644363476361e-03). Look into scaling outputs logarithmically?
+First result (maximising exploration) yielded a 0 at the "far left" - graphing, maximising exploration would mean looking round the corners.
+
+Week 2:
+res = gp_minimize(
+    func=surrogate_function,   # The objective function to minimize
+    dimensions=search_space,  # The search space
+    #acq_func="EI",           # Acquisition function (Expected Improvement)
+    acq_func="LCB",
+    kappa= 500.0,    # High kappa favors exploration
+    n_calls=ary_in.shape[0] * 2,               # Total number of queries allowed (including initial samples)
+    x0=[list(x) for x in ary_in],             # Initial input samples
+    y0=ary_out # Initial output samples (negated for maximization)
+)
+
+Suggested next inputs to try: [0.8385942700572028, 0.08751546896344593]
+
+
 (3) "one of the variables may not cause any effects on the person"
+21st Jan - tried to identify this by looking for pairs of points that are close in 2 X dimensions and in y, and far apart in the other X dimension. If there were many of these for the same pair of dimension, it would indicate the other dimension is the "placebo"
 
 
+Week 2 suggested next inputs, using skopt:
+
+[0.00367 0.9999 ]
+Shape of ary_in: (11, 2)
+Function 1
+Best input values found: [0.5738857659604994, 0.5447396820178738]
+Best output value observed: -0.008152455426852612
+Suggested next inputs to try: 0.476035-0.572563
+[0.00367 0.9999 ]
+Shape of ary_in: (11, 2)
+Function 2
+Best input values found: [1.0, 1.0]
+Best output value observed: -0.39147667194075364
+Suggested next inputs to try: 0.000000-0.000000
+[0.00367 0.9999 ]
+Shape of ary_in: (16, 3)
+Function 3
+Best input values found: [0.151836632374168, 0.43999061896644376, 0.990881866558951]
+Best output value observed: -0.3989255131463011
+Suggested next inputs to try: 0.021709-0.282282-0.796229
+[0.00367 0.9999 ]
+Shape of ary_in: (31, 4)
+Function 4
+Best input values found: [0.9483893624466845, 0.8945130079782345, 0.8516378174441099, 0.5521962863978067]
+Best output value observed: -32.625660215962455
+Suggested next inputs to try: 1.000000-0.000000-0.000000-1.000000
+[0.00367 0.9999 ]
+Shape of ary_in: (21, 4)
+Function 5
+Best input values found: [0.9445183656228658, 0.6921790230562376, 0.10872712022549683, 0.45697947360543545]
+Best output value observed: -1.6857801295145123
+Suggested next inputs to try: 0.987523-0.470227-0.946409-0.105412
+[0.00367 0.9999 ]
+Shape of ary_in: (21, 5)
+Function 6
+Best input values found: [0.1269956689994678, 0.9475997487802141, 0.0, 0.12851598831351901, 0.9707114638797028]
+Best output value observed: -2.7691412678097764
+Suggested next inputs to try: 0.340696-0.494179-0.000021-0.030805-0.939958
+[0.00367 0.9999 ]
+Shape of ary_in: (31, 6)
+Function 7
+Best input values found: [1.0, 0.6574635495477655, 0.0, 0.0, 1.0, 1.0]
+Best output value observed: -0.4033890370447182
+Suggested next inputs to try: 0.000000-1.000000-1.000000-0.000000-1.000000-0.456558
+[0.00367 0.9999 ]
+Shape of ary_in: (41, 8)
+Function 8
+Best input values found: [1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0]
+Best output value observed: 4.013053202180316
+Suggested next inputs to try: 0.993634-0.968223-0.979285-0.397318-0.965856-0.955218-0.006078-0.024001
+
+
+
+-retrying 2,4,7:
+got imroved 4 after changing to EI acquisition function
+
+Function 4
+Best input values found: [0.96254650218144, 0.9013403296743832, 0.8162912490342732, 0.6173510627094744]
+Best output value observed: -33.05961491706661
+Suggested next inputs to try: 0.953433-0.895217-0.812477-0.618719
+
+retrying 2 and 7 using LCB and kappa=2
+
+Function 2
+Best input values found: [1.0, 1.0]
+Best output value observed: -0.39147667194075364
+Suggested next inputs to try: 0.641846-0.498841
+
+Function 7 - using kappa = 1
+
+
+Shape of ary_in: (31, 6)
+Function 7
+Best input values found: [0.8818219618293061, 0.7497247664623392, 0.0, 0.0, 1.0, 0.9343177584009524]
+Best output value observed: -0.4184203454118389
+Suggested next inputs to try: 0.883140-0.756642-0.000000-0.000000-1.000000-0.942719
+
+
+Week 2 to submit:
+0.476035-0.572563
+0.641846-0.498841
+0.021709-0.282282-0.796229 but submitting 0.000000-0.000000-0.000000 to test a theory - as this is to minimise adverse reaction, shouldn't 0 of all the ingredients be safest?
+0.953433-0.895217-0.812477-0.618719
+0.987523-0.470227-0.946409-0.105412
+0.340696-0.494179-0.000021-0.030805-0.939958
+0.883140-0.756642-0.000000-0.000000-1.000000-0.942719 - but 1 is not allowed so changing to 0.9 - 0.883140-0.756642-0.000000-0.000000-0.900000-0.942719
+0.993634-0.968223-0.979285-0.397318-0.965856-0.955218-0.006078-0.024001
+
+
+
+Week 3:
+using 0.02 notebook - using test bimodal functions in 1 and 2 dimensions, experimented with RBF kernel lenthscales, and UCB kappas.
+Used the best in2 dimensions to predict for the functions.
+to submit:
+Function 1
+0.127849-0.198491
+Function 2
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\_gpr.py:663: ConvergenceWarning: lbfgs failed to converge (status=2):
+ABNORMAL_TERMINATION_IN_LNSRCH.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+0.246077-0.656597
+Function 3
+0.500000-0.500000-0.500000 (but instead, to explore hint "one of the variables might not cause any effect on the person", will choose 
+the closest existing point to that, which is also the current maximum, and change just the furthest-out dimension to 0.5, i.e. 0.492581-0.611593-0.500000
+Function 4
+0.510358-0.521985-0.383995-0.445439
+Function 5
+0.500000-0.500000-0.500000-0.500000
+Function 6
+0.663360-0.000000-1.000000-0.332984-0.000000
+Function 7
+0.000000-0.165185-0.286810-0.000000-0.318109-1.000000
+Function 8
+0.119265-0.254466-0.117275-0.245630-0.548426-0.553172-0.230111-0.516062
+
+
+
+To do week 4: 
+(1) logarithmic scaling on the contamination function
+(2) Function 5 - optmize for unimodal
+(3) Test with functions with more (esp. in higher dimensions) and narrower peaks; trying EI acquisition functions, and/or decreasing kappa
+
+
+Week 4:
+(1) (from (3) above) - enhance two_d_test for n dimensions - done
+(2) (from (3) above) - further enhance for n peaks - done
+(3) function 5 - optimize for unimodal - set up test profiles.
+Finding that the calibration process runs slowly for higher dimensions. To a degree, can mitigate this with coarser grid (20 or 30 points per axis instead of 100)
+Used _kernel.length_scale to pick up length scales trained from calibration functions and real data.
+Repeated calibrations using only that length scale for each function (functions 2 and 8 didn't find optimal lengthscale in training - will need to revisit)
+Used that to do CSV output over 4 random test objective functions for each competition function. Determined best kappa based on looking at CSV outputs (but only got one for first 3 functions)
+Reran the "suggested next" still using RBF, with trained lengthscale, and best kappa as far as can be worked out:
+
+
+Function 1
+0.240010-0.357107
+Function 2
+0.500000-0.500000
+Function 3
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified lower bound 0.001. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+0.500000-0.500000-0.500000
+Function 4
+0.549669-0.508442-0.413776-0.413008
+Function 5
+0.500102-0.500102-0.500102-0.500102
+Function 6
+0.563405-0.000000-0.831340-1.000000-0.000000
+Function 7
+0.000000-0.626234-0.280125-0.000000-0.367770-0.451863
+Function 8
+0.275027-0.304704-0.160147-0.328388-0.419169-0.578759-0.436166-0.614079
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified upper bound 1.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+  
+  
+ For week 5:
+ more tailoring to known info - logarithmic y for contamination; try to identify placebo dimension for drug discovery; pure exploitation for unimodal?
+
+ break week so not doing v much - organised code a little - change to using current optimum as start - perturb this for the unimodal function because it was getting stuck on current optimum.
+ 
+ Function 1
+0.999999-0.999999
+Function 2
+0.666698-0.666698
+Function 3
+0.558875-0.558874-0.558875
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified lower bound 0.001. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+Function 4
+0.523385-0.494608-0.227830-0.357468
+Function 5
+perturb_max_start =  -0.055
+0.932544-0.415248-0.891430-0.050433
+Function 6
+0.000000-0.687353-0.000000-0.999999-0.000000
+Function 7
+0.000000-0.568950-0.354465-0.290165-0.482077-0.989692
+Function 8
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified upper bound 1.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+0.000000-0.047944-0.315163-0.115808-0.571106-0.595130-0.376754-0.548807
+
+
+
+Week 6 (19th Feb):
+tested more kernels for gaussian process regressors and used best (from csv output) in suggestions
+function 1 (contamination with values close to 0) - logarithmic scaling on y 
+To submit:
+Function 1
+0.999999-0.784908
+Function 2
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified upper bound 1.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified lower bound 0.001. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+0.500257-0.500039
+Function 3
+0.500001-0.500004-0.499999
+Function 4
+0.502787-0.488480-0.355693-0.387261
+Function 5
+perturb_max_start =  -0.055
+0.987554-0.470163-0.946567-0.105327
+Function 6
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified upper bound 1.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified upper bound 1.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+0.463126-0.317874-0.508172-0.723817-0.144808
+Function 7
+0.055316-0.488299-0.249433-0.216093-0.410181-0.731049
+Function 8
+0.108893-0.287056-0.194225-0.299992-0.537696-0.356217-0.306504-0.371320
+
+
+To do week 7:
+PCA - especially on drug discovery with placebo dimension
+more acquisition functions and more exploitative
+Outputting test results to CSV - write one line at a time to benefit slower, higher-order functions 7 and 8
