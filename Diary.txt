@@ -280,6 +280,52 @@ Function 8
 
 
 To do week 7:
-PCA - especially on drug discovery with placebo dimension
-more acquisition functions and more exploitative
-Outputting test results to CSV - write one line at a time to benefit slower, higher-order functions 7 and 8
+PCA - especially on drug discovery with placebo dimension - not done yet - should also do this on function 5 (did prelim analysis)
+more acquisition functions and more exploitative (added but 
+Outputting test results to CSV - write one line at a time to benefit slower, higher-order functions 7 and 8 (done)
+                                                                                                                                                            
+
+Week 7:
+Fixed "progress so far" output as it wasn't showing latest weeks
+Reorganised pipeline to move important parts into .py files ready for unit testing and reuse
+Added more exploitative acquisition functions but won't use them yet - made lots of progress after using the different kernels in week 6 so don't want to change things much - there are still 5-6 weeks to go.
+
+Recommendations to submit: 
+
+Function 1
+0.272266-0.999999
+Function 2
+0.500418-0.500063
+Function 3
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\_gpr.py:663: ConvergenceWarning: lbfgs failed to converge (status=2):
+ABNORMAL_TERMINATION_IN_LNSRCH.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified upper bound 1.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified lower bound 0.001. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+0.499995-0.499979-0.500005
+Function 4
+0.509760-0.499682-0.361894-0.410571
+Function 5
+perturb_max_start =  -0.055
+0.988196-0.468239-0.950640-0.102834
+Function 6
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified upper bound 1.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+0.450692-0.291679-0.530446-0.796956-0.228417
+Function 7
+0.052721-0.479750-0.249304-0.214388-0.397125-0.729761
+Function 8
+0.034845-0.333463-0.207002-0.200610-0.606274-0.623629-0.272586-0.626177
+c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter length_scale is close to the specified upper bound 1.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+
+Will manually override fn 1 and 2 as notes suggest I need to do more exploring (2nd maximum in fn 1, generally around edges in fn 2)
+Function 1
+0.900000-0.200000
+Function 2
+0.300000-0.850000

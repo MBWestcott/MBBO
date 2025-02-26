@@ -67,3 +67,31 @@ def output_results_csv(test_results, filename="out"):
             row.extend(sr.result_list)
             writer.writerow(row)
         writer.writerow([test_results.describe_best_case()])
+
+# Todo: wrap these 3 in class
+def start_results_csv(number_of_test_functions, filename="out"):
+    headers = ["Description"]
+    for i in range(number_of_test_functions):
+        headers.append("Function " + str(i))
+
+    f_name = f'{filename}.csv'
+    with open(f_name, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(headers)
+
+    return f_name
+
+def write_test_result(filename, scenario_result:ScenarioResult):
+    """Writes a single row of test results to the CSV file."""
+    row = [scenario_result.description] + scenario_result.result_list
+
+    with open(filename, 'a', newline='') as f:  # Append mode
+
+        writer = csv.writer(f)
+        writer.writerow(row)
+
+def write_best_case_description(filename, test_results:TestResults):
+    """Writes the best case description at the end of the CSV file."""
+    with open(filename, 'a', newline='') as f:  # Append mode
+        writer = csv.writer(f)
+        writer.writerow([test_results.describe_best_case()])
