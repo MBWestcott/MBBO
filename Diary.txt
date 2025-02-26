@@ -329,3 +329,5 @@ Function 1
 0.900000-0.200000
 Function 2
 0.300000-0.850000
+
+Todo week 8: look at these bounds warnings and flex things up.
