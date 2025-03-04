@@ -58,8 +58,17 @@ week6_in = [np.array([0.999999, 0.784908]),
             np.array([0.463126, 0.317874, 0.508172, 0.723817, 0.144808]), np.array([0.055316, 0.488299, 0.249433, 0.216093, 0.410181, 0.731049]), np.array([0.108893, 0.287056, 0.194225, 0.299992, 0.537696, 0.356217,
        0.306504, 0.37132 ])]
 
-responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out]
+week7_out = [5.711328105760199e-181, -0.12612902572151125, -0.0037570286950206317, -2.2184308662808827, 1266.6946029431565, -0.32396126685645454, 1.504001019324403, 9.8928466939651]
 
+week7_in = [np.array([0.9, 0.2]), 
+            np.array([0.3 , 0.85]), 
+            np.array([0.499995, 0.499979, 0.500005]), 
+            np.array([0.50976 , 0.499682, 0.361894, 0.410571]), 
+            np.array([0.988196, 0.468239, 0.95064 , 0.102834]), 
+            np.array([0.450692, 0.291679, 0.530446, 0.796956, 0.228417]), 
+            np.array([0.052721, 0.47975 , 0.249304, 0.214388, 0.397125, 0.729761]), 
+            np.array([0.034845, 0.333463, 0.207002, 0.20061 , 0.606274, 0.623629, 0.272586, 0.626177])]
+responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out]
 
 def get_function_data(function_number):
     ary_in = np.load(f'../data/raw/initial_data/function_{function_number}/initial_inputs.npy')
@@ -72,31 +81,38 @@ def get_function_data(function_number):
     ary_out=np.append(ary_out, week4_out[function_number-1])
     ary_out=np.append(ary_out, week5_out[function_number-1])
     ary_out=np.append(ary_out, week6_out[function_number-1])
+    ary_out=np.append(ary_out, week7_out[function_number-1])
     ary_in=np.vstack((ary_in, week1_in[function_number-1]))
     ary_in=np.vstack((ary_in, week2_in[function_number-1]))
     ary_in=np.vstack((ary_in, week3_in[function_number-1]))
     ary_in=np.vstack((ary_in, week4_in[function_number-1]))
     ary_in=np.vstack((ary_in, week5_in[function_number-1]))
     ary_in=np.vstack((ary_in, week6_in[function_number-1]))
+    ary_in=np.vstack((ary_in, week7_in[function_number-1]))
     
     return ary_in, ary_out
 
 class FunctionInfo():
     # week 7 - function 1 - need to find 2nd optimum which seems to be around [0.9, 0.2] - keep exploring around there (changed kappa from 0.1 to 0.8)
     # function 2 - "lot of local optima" so keep exploring too, especially unexplored areas - top left (around [0.3, 0.85]) and bottom right (around [0.775, 0.275])
-    rbf_lengthscales = [0.8, 0.5, 0.016, 0.337, 0.0162, 0.68, 0.644, 1.0 ] # functions 2 and 8 didn't find optimal lengthscale in training
+    rbf_lengthscales = [0.00421, 0.0544, 0.016, 3.51, 0.0942, 3.04, 0.198, 2.38 ] # functions 2 and 8 didn't find optimal lengthscale in training
+    default_lengthscale_lb = 0.001
+    default_lengthscale_ub = 20.0
+    lengthscale_bounds_list = [(default_lengthscale_lb, default_lengthscale_ub)] * 8
+    lengthscale_bounds_list[0] = (0.0001, 20) #f1
+    lengthscale_bounds_list[2] = (0.0001, 40) #f1
     ucb_kappas = [0.8, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8] # only got successful calibration for first 3. Default to 0.8 for the rest (high because still exploring) 
                                                               # - except function 5 which is unimodal so can exploit more.
                                                               # Function 3 - aim is to reduce bad side effects of drug combination - have a maximum around 0.5,0.5,0.5 so from week 5 on, exploiting that
     perturb_max_starts = [0,0,0,0,-0.055,0,0,0] #having trouble getting function 5 to explore a little more away from its maximum - nudge
-    kernel_params_list=[{"class": "RationalQuadratic", "alpha": 0.4},
-                   {"class": "RationalQuadratic", "alpha": 1.0},
-                   {"class": "RationalQuadratic", "alpha": 1.0},
-                   {"class": "RationalQuadratic", "alpha": 1.0}, #f4 - all NaN
-                   {"class": "RationalQuadratic", "alpha": 1.4}, #f5 = mainly NaN
-                   {"class": "Matern52", "nu":2.5}, #f6 - mainly NaN
-                   {"class": "RationalQuadratic", "alpha": 1.0},
-                   {"class": "RationalQuadratic", "alpha": 1.0}]
+    kernel_params_list=[{"class": "RationalQuadratic", "alpha": 0.949},
+                   {"class": "RationalQuadratic", "alpha": 0.16},
+                   {"class": "Linear (no noise)", "alpha": 1.0},
+                   {"class": "RationalQuadratic", "alpha": 0.0607},
+                   {"class": "RationalQuadratic", "alpha": 0.327}, #f5 = mainly NaN
+                   {"class": "RationalQuadratic", "alpha":0.0417, "nu":2.5}, #f6 - mainly NaN
+                   {"class": "RationalQuadratic", "alpha": 0.308},
+                   {"class": "RBF", "alpha": 1.0}]
 
     def __init__(self, function_number):
         self.function_number = function_number
@@ -105,3 +121,23 @@ class FunctionInfo():
         self.ucb_kappa = self.ucb_kappas[function_ix]
         self.kernel_params = self.kernel_params_list[function_ix]
         self.perturb_max_start = self.perturb_max_starts[function_ix]
+        self.n_restarts_optimizer = 0 if self.kernel_params["class"] in ["RBF", "Linear (no noise)"] else 10 # use restarts optimizer for more complex kernels
+        self.lengthscale_bounds = self.lengthscale_bounds_list[function_ix]
+
+
+
+#function 1 - values mostly very close to 0
+def scale_f1(values):
+    # Step 1: Replace zeros with a small positive value to avoid log(0)
+    epsilon = 1e-200  # A very small number
+    values_safe = np.where(values == 0, epsilon, values)
+
+    # Step 2: Take the logarithm of absolute values
+    log_values = np.log10(np.abs(values_safe))
+
+    # Step 3: Normalize to the range [-1, 1]
+    log_min, log_max = np.min(log_values), np.max(log_values)
+    scaled_values = 2 * (log_values - log_min) / (log_max - log_min) - 1
+
+    # Step 4: Restore signs
+    return np.sign(values) * np.abs(scaled_values)

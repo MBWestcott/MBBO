@@ -1,0 +1,25 @@
+Function 1: 
+Kernel: RationalQuadratic, MLL: -17.283, Optimized Kernel: 0.63**2 * RationalQuadratic(alpha=0.949, length_scale=0.0042)
+
+Function 2
+🔹 Kernel: RationalQuadratic, MLL: -3.723, Optimized Kernel: 0.288**2 * RationalQuadratic(alpha=0.16, length_scale=0.0544)
+
+Function 3 (lots of bounds warnings)
+?? - all positive but this was closest to 1 ...increase alpha?
+🔹 Kernel: DotProduct, MLL: 5.221, Optimized Kernel: DotProduct(sigma_0=1e-05) + 0.00316**2
+
+Fuction 4
+RationalQuadratic, MLL: -76.317, Optimized Kernel: 60**2 * RationalQuadratic(alpha=0.0607, length_scale=3.51)
+
+Function 5
+Kernel: RationalQuadratic, MLL: -175.019, Optimized Kernel: 316**2 * RationalQuadratic(alpha=0.327, length_scale=0.0942)
+
+Function 6
+Kernel: RationalQuadratic, MLL: -12.269, Optimized Kernel: 2.58**2 * RationalQuadratic(alpha=0.0417, length_scale=3.04)
+
+Function 7
+RationalQuadratic, MLL: -9.914, Optimized Kernel: 0.336**2 * RationalQuadratic(alpha=0.308, length_scale=0.198)
+
+Function 8
+RBF, MLL: -22.258, Optimized Kernel: 3.05**2 * RBF(length_scale=2.38)
+
