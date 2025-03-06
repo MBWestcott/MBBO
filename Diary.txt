@@ -448,3 +448,4 @@ c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:45
 
 ✅ Best Kernel: RationalQuadratic with MLL: -22.258
 0.000000-0.000000-0.000000-0.000000-0.113137-0.000000-0.000000-0.999999
+-stuck at bounds so overriding with previous week's stored model
