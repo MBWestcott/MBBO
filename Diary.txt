@@ -448,4 +448,17 @@ c:\Users\mike\anaconda3\Lib\site-packages\sklearn\gaussian_process\kernels.py:45
 
 ✅ Best Kernel: RationalQuadratic with MLL: -22.258
 0.000000-0.000000-0.000000-0.000000-0.113137-0.000000-0.000000-0.999999
--stuck at bounds so overriding with previous week's stored model
+-looks stuck at bounds so overriding with last week's model
+0.149670-0.119732-0.135655-0.021701-0.729461-0.374063-0.189878-0.729301
+
+
+Week 8 (Monday - now running 2 per week)
+Reran "suggest next" as is, but overriding fn 1 and 3 for more exploration
+0.850000-0.620000
+0.907840-0.408249
+0.850000-0.110000-0.620000
+0.384059-0.353891-0.404024-0.435843
+0.999999-0.464941-0.989074-0.094620
+0.397563-0.338640-0.587087-0.844029-0.102478
+0.000000-0.488661-0.371796-0.126624-0.016708-0.944483
+0.000000-0.000000-0.000000-0.000000-0.632704-0.269861-0.000000-0.999999

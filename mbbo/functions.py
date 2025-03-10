@@ -68,7 +68,12 @@ week7_in = [np.array([0.9, 0.2]),
             np.array([0.450692, 0.291679, 0.530446, 0.796956, 0.228417]), 
             np.array([0.052721, 0.47975 , 0.249304, 0.214388, 0.397125, 0.729761]), 
             np.array([0.034845, 0.333463, 0.207002, 0.20061 , 0.606274, 0.623629, 0.272586, 0.626177])]
-responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out]
+
+
+week8_out = [1.517648729565899e-192, 0.5893282479824354, -0.003755538834828532, 0.4356154043374656, 1460.851692804078, -0.18800183363086395, 0.19725035466505603, 9.9573682720424]
+week8_in = [np.array([0.999999, 0.999999]), np.array([0.880375, 0.44242 ]), np.array([0.499995, 0.5     , 0.5     ]), np.array([0.413247, 0.395992, 0.392364, 0.412961]), np.array([0.994996, 0.463549, 0.972149, 0.095332]), np.array([0.406513, 0.320061, 0.574077, 0.827518, 0.111625]), np.array([0.      , 0.496625, 0.365221, 0.119808, 0.004924, 0.95426 ]), np.array([0.14967 , 0.119732, 0.135655, 0.021701, 0.729461, 0.374063,
+       0.189878, 0.729301])]
+responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out]
 
 def get_function_data(function_number):
     ary_in = np.load(f'../data/raw/initial_data/function_{function_number}/initial_inputs.npy')
@@ -82,6 +87,7 @@ def get_function_data(function_number):
     ary_out=np.append(ary_out, week5_out[function_number-1])
     ary_out=np.append(ary_out, week6_out[function_number-1])
     ary_out=np.append(ary_out, week7_out[function_number-1])
+    ary_out=np.append(ary_out, week8_out[function_number-1])
     ary_in=np.vstack((ary_in, week1_in[function_number-1]))
     ary_in=np.vstack((ary_in, week2_in[function_number-1]))
     ary_in=np.vstack((ary_in, week3_in[function_number-1]))
@@ -89,6 +95,7 @@ def get_function_data(function_number):
     ary_in=np.vstack((ary_in, week5_in[function_number-1]))
     ary_in=np.vstack((ary_in, week6_in[function_number-1]))
     ary_in=np.vstack((ary_in, week7_in[function_number-1]))
+    ary_in=np.vstack((ary_in, week8_in[function_number-1]))
     
     return ary_in, ary_out
 
@@ -129,7 +136,7 @@ class FunctionInfo():
 #function 1 - values mostly very close to 0
 def scale_f1(values):
     # Step 1: Replace zeros with a small positive value to avoid log(0)
-    epsilon = 1e-200  # A very small number
+    epsilon = 1e-250  # A very small number
     values_safe = np.where(values == 0, epsilon, values)
 
     # Step 2: Take the logarithm of absolute values

@@ -1,0 +1,62 @@
+Description,Function 0,Function 1,Function 2,Function 3
+Linear (no noise) - ls=0.337 - k=0.1,nan,nan,nan,nan
+Linear (no noise) - ls=0.337 - k=0.4,nan,nan,nan,nan
+Linear (no noise) - ls=0.337 - k=0.7,nan,nan,nan,nan
+Linear (no noise) - ls=0.337 - k=1.0,nan,nan,nan,nan
+Linear (no noise) - ls=0.337 - k=1.3,nan,nan,nan,nan
+RBF - ls=0.337 - k=0.1,nan,nan,nan,nan
+RBF - ls=0.337 - k=0.4,nan,nan,nan,nan
+RBF - ls=0.337 - k=0.7,nan,nan,nan,nan
+RBF - ls=0.337 - k=1.0,nan,nan,nan,nan
+RBF - ls=0.337 - k=1.3,nan,nan,nan,nan
+Matern52 {'nu': 2.5} - ls=0.337 - k=0.1,nan,nan,nan,nan
+Matern52 {'nu': 2.5} - ls=0.337 - k=0.4,nan,nan,nan,nan
+Matern52 {'nu': 2.5} - ls=0.337 - k=0.7,nan,nan,nan,nan
+Matern52 {'nu': 2.5} - ls=0.337 - k=1.0,nan,nan,nan,nan
+Matern52 {'nu': 2.5} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.4} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.4} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.4} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.4} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.4} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.8} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.8} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.8} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.8} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 0.8} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.0} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.0} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.0} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.0} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.0} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.2} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.2} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.2} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.2} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.2} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.6} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.6} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.6} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.6} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.6} - ls=0.337 - k=1.3,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.8} - ls=0.337 - k=0.1,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.8} - ls=0.337 - k=0.4,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.8} - ls=0.337 - k=0.7,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.8} - ls=0.337 - k=1.0,nan,nan,nan,nan
+RationalQuadratic {'alpha': 1.8} - ls=0.337 - k=1.3,nan,nan,nan,nan
+Best: no valid scenarios found (all disqualified due to NaN or zero-only results).

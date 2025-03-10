@@ -1,0 +1,62 @@
+Description,Function 0,Function 1,Function 2,Function 3
+Linear (no noise) - ls=0.016 - k=0.1,nan,nan,nan,nan
+Linear (no noise) - ls=0.016 - k=0.4,nan,nan,nan,nan
+Linear (no noise) - ls=0.016 - k=0.7,nan,nan,nan,nan
+Linear (no noise) - ls=0.016 - k=1.0,nan,nan,nan,nan
+Linear (no noise) - ls=0.016 - k=1.3,nan,nan,nan,nan
+RBF - ls=0.016 - k=0.1,16,13,21,11
+RBF - ls=0.016 - k=0.4,nan,nan,nan,nan
+RBF - ls=0.016 - k=0.7,nan,15,nan,25
+RBF - ls=0.016 - k=1.0,26,nan,nan,nan
+RBF - ls=0.016 - k=1.3,nan,nan,nan,nan
+Matern52 {'nu': 2.5} - ls=0.016 - k=0.1,nan,nan,10,13
+Matern52 {'nu': 2.5} - ls=0.016 - k=0.4,13,17,13,nan
+Matern52 {'nu': 2.5} - ls=0.016 - k=0.7,nan,nan,6,nan
+Matern52 {'nu': 2.5} - ls=0.016 - k=1.0,14,nan,nan,nan
+Matern52 {'nu': 2.5} - ls=0.016 - k=1.3,17,nan,nan,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.016 - k=0.1,25,nan,20,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.016 - k=0.4,12,nan,15,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.016 - k=0.7,nan,nan,23,nan
+RationalQuadratic {'alpha': 0.2} - ls=0.016 - k=1.0,0,7,14,16
+RationalQuadratic {'alpha': 0.2} - ls=0.016 - k=1.3,12,nan,nan,4
+RationalQuadratic {'alpha': 0.4} - ls=0.016 - k=0.1,24,nan,10,17
+RationalQuadratic {'alpha': 0.4} - ls=0.016 - k=0.4,8,nan,13,nan
+RationalQuadratic {'alpha': 0.4} - ls=0.016 - k=0.7,5,nan,28,10
+RationalQuadratic {'alpha': 0.4} - ls=0.016 - k=1.0,nan,26,nan,4
+RationalQuadratic {'alpha': 0.4} - ls=0.016 - k=1.3,0,nan,7,17
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.016 - k=0.1,nan,nan,11,14
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.016 - k=0.4,0,nan,10,nan
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.016 - k=0.7,16,nan,nan,5
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.016 - k=1.0,26,8,6,21
+RationalQuadratic {'alpha': 0.6000000000000001} - ls=0.016 - k=1.3,26,nan,11,24
+RationalQuadratic {'alpha': 0.8} - ls=0.016 - k=0.1,nan,nan,12,8
+RationalQuadratic {'alpha': 0.8} - ls=0.016 - k=0.4,16,nan,13,12
+RationalQuadratic {'alpha': 0.8} - ls=0.016 - k=0.7,6,7,9,nan
+RationalQuadratic {'alpha': 0.8} - ls=0.016 - k=1.0,16,7,6,9
+RationalQuadratic {'alpha': 0.8} - ls=0.016 - k=1.3,21,nan,21,14
+RationalQuadratic {'alpha': 1.0} - ls=0.016 - k=0.1,nan,nan,10,nan
+RationalQuadratic {'alpha': 1.0} - ls=0.016 - k=0.4,nan,5,9,7
+RationalQuadratic {'alpha': 1.0} - ls=0.016 - k=0.7,24,8,10,14
+RationalQuadratic {'alpha': 1.0} - ls=0.016 - k=1.0,nan,nan,6,2
+RationalQuadratic {'alpha': 1.0} - ls=0.016 - k=1.3,6,6,8,16
+RationalQuadratic {'alpha': 1.2} - ls=0.016 - k=0.1,14,nan,nan,10
+RationalQuadratic {'alpha': 1.2} - ls=0.016 - k=0.4,15,nan,8,nan
+RationalQuadratic {'alpha': 1.2} - ls=0.016 - k=0.7,16,nan,8,5
+RationalQuadratic {'alpha': 1.2} - ls=0.016 - k=1.0,nan,3,6,13
+RationalQuadratic {'alpha': 1.2} - ls=0.016 - k=1.3,nan,13,18,nan
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.016 - k=0.1,nan,nan,11,14
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.016 - k=0.4,5,nan,9,3
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.016 - k=0.7,14,5,6,12
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.016 - k=1.0,19,nan,6,8
+RationalQuadratic {'alpha': 1.4000000000000001} - ls=0.016 - k=1.3,14,nan,9,16
+RationalQuadratic {'alpha': 1.6} - ls=0.016 - k=0.1,13,5,4,14
+RationalQuadratic {'alpha': 1.6} - ls=0.016 - k=0.4,19,nan,0,6
+RationalQuadratic {'alpha': 1.6} - ls=0.016 - k=0.7,nan,18,7,27
+RationalQuadratic {'alpha': 1.6} - ls=0.016 - k=1.0,nan,17,6,8
+RationalQuadratic {'alpha': 1.6} - ls=0.016 - k=1.3,10,9,8,nan
+RationalQuadratic {'alpha': 1.8} - ls=0.016 - k=0.1,7,nan,9,16
+RationalQuadratic {'alpha': 1.8} - ls=0.016 - k=0.4,1,nan,8,nan
+RationalQuadratic {'alpha': 1.8} - ls=0.016 - k=0.7,nan,7,25,nan
+RationalQuadratic {'alpha': 1.8} - ls=0.016 - k=1.0,2,30,28,11
+RationalQuadratic {'alpha': 1.8} - ls=0.016 - k=1.3,13,nan,13,nan
+Best: RationalQuadratic {'alpha': 1.0} - ls=0.016 - k=1.3 with avg iterations: 9.00
