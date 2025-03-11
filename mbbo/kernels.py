@@ -107,3 +107,35 @@ def choose_kernel(function_number):
 
     print(f"\n✅ Best Kernel: {best_kernel_name} with MLL: {results[best_kernel_name]['MLL']:.3f}")
     return best_kernel, results[best_kernel_name]['MLL']
+
+def choose_kernel_3():
+#Function 3 - "one dimension may have no effect" - investigate kernels that omit one dimension"""
+    info_f = FunctionInfo(3)
+    X,y = get_function_data(3)
+    for i in range(3):
+        print(f"Omitting dimension {i}")
+        X_ = np.delete(X, i, 1)
+        ks = make_kernels_with_const(lengthscale_lb=info_f.lengthscale_bounds[0], lengthscale_ub=info_f.lengthscale_bounds[1])
+        results = {}
+        for name, kernel in ks.items():
+            # Dictionary to store results
+            gp = GaussianProcessRegressor(kernel=kernel, alpha=0.05, n_restarts_optimizer = info_f.n_restarts_optimizer)
+
+            gp.fit(X_, y)
+            
+            # Compute Log Marginal Likelihood (MLL)
+            mll = gp.log_marginal_likelihood_value_
+            results[name] = {"MLL": mll, "Kernel": gp.kernel_}
+
+            print(f"🔹 Kernel: {name}, MLL: {mll:.3f}, Optimized Kernel: {gp.kernel_}")
+
+        # Select the best kernel based on MLL closest to 0
+        best_kernel_name = min(results, key=lambda k: abs(results[k]["MLL"]))
+        best_kernel = results[best_kernel_name]["Kernel"]
+        print(f"\n✅ Best Kernel: {best_kernel_name} with MLL: {results[best_kernel_name]['MLL']:.3f}")
+        print("") 
+
+
+
+
+

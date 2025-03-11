@@ -133,8 +133,12 @@ class FunctionInfo():
 
 
 
-#function 1 - values mostly very close to 0
-def scale_f1(values):
+
+def scale(function_num, values):
+    #function 1 - values mostly very close to 0
+    if function_num != 1:
+        return values
+    
     # Step 1: Replace zeros with a small positive value to avoid log(0)
     epsilon = 1e-250  # A very small number
     values_safe = np.where(values == 0, epsilon, values)
