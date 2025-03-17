@@ -478,3 +478,13 @@ overriding 3 (manual) and 8 (RQ kernel without constant)
 0.127542-0.183196-0.108019-0.140588-0.816319-0.494041-0.217229-0.525747
 
 to do week 9 - swap in and test different acquisition functions.
+
+Week 9 ( Monday for additional run) - reran with new initial data and existing codebase except fn 8
+0.798651-0.868125
+0.747885-0.473503
+0.499995-0.500000-0.500000
+0.395830-0.371021-0.410062-0.404591
+0.253530-0.884504-0.900956-0.824813
+0.364457-0.356583-0.616022-0.799995-0.006197
+0.104580-0.251129-0.512889-0.201087-0.332013-0.794239
+0.127542-0.183196-0.108019-0.140588-0.816319-0.494041-0.217229-0.525747 (this from old gaussian process calibration method rather than picking best fit to data)

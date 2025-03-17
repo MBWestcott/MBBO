@@ -85,8 +85,7 @@ def choose_kernel(function_number):
     print(f"Function {function_number}")
     info_f = FunctionInfo(function_number)
     X,y = get_function_data(function_number)
-    if(function_number == 1):
-        y = mbbo.functions.scale_f1(y)
+    y = mbbo.functions.scale(function_number, y)
     ks = make_kernels_with_const(lengthscale_lb=info_f.lengthscale_bounds[0], lengthscale_ub=info_f.lengthscale_bounds[1])
     results = {}
     for name, kernel in ks.items():
