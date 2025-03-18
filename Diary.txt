@@ -487,4 +487,16 @@ Week 9 ( Monday for additional run) - reran with new initial data and existing c
 0.253530-0.884504-0.900956-0.824813
 0.364457-0.356583-0.616022-0.799995-0.006197
 0.104580-0.251129-0.512889-0.201087-0.332013-0.794239
-0.127542-0.183196-0.108019-0.140588-0.816319-0.494041-0.217229-0.525747 (this from old gaussian process calibration method rather than picking best fit to data)
+0.134288-0.233605-0.131808-0.159265-0.963127-0.416094-0.202944-0.424184 (this from old gaussian process calibration method rather than picking best fit to data)
+
+Tuesday: refactored aquisition functions for ease of swapping in alternatives.
+Based on "Recent Advances in Bayesian Optimization" https://arxiv.org/pdf/2206.03301 - for function 8, try selecting just most important features (1st, 3rd and 7th based on votes of correlations)
+Tried EI and PI but found them *too* exploitative (stuck very close to maximum) so using UCB but with 1/2 kappa
+0.580172-0.588216
+0.751489-0.488207
+0.499995-0.520000-0.500000 (manually adjusted because got stuck on previous suggestion)
+0.396506-0.371179-0.408664-0.406183
+0.250547-0.881019-0.898804-0.829029
+0.358861-0.361180-0.620833-0.798651-0.012107
+0.138608-0.241216-0.512483-0.227211-0.353446-0.779906
+0.154828-0.150755-0.135927-0.167159-0.814302-0.413704-0.196015-0.437325 (this from old gaussian process calibration method rather than picking best fit to data)

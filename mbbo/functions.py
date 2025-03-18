@@ -79,9 +79,11 @@ week9_in = [np.array([0.824369, 0.939812]), np.array([0.907791, 0.408276]), np.a
             np.array([0.94233 , 0.408227, 0.922877, 0.039362]), np.array([0.397563, 0.338641, 0.587087, 0.844029, 0.102478]), 
             np.array([0.      , 0.490308, 0.375843, 0.127935, 0.018695, 0.948211]), np.array([0.127542, 0.183196, 0.108019, 0.140588, 0.816319, 0.494041,       0.217229, 0.525747])]
 
+week10_out = [-1.734852475761745e-60, 0.46227707004415614, -0.009638954094570346, 0.435657387239925, 1137.9195602632335, -0.1865922817915005, 2.550096898001736, 9.9671093365119]
+week10_in = [np.array([0.798651, 0.868125]), np.array([0.747885, 0.473503]), np.array([0.499995, 0.5     , 0.5     ]), np.array([0.39583 , 0.371021, 0.410062, 0.404591]), np.array([0.25353 , 0.884504, 0.900956, 0.824813]), np.array([0.364457, 0.356583, 0.616022, 0.799995, 0.006197]), np.array([0.10458 , 0.251129, 0.512889, 0.201087, 0.332013, 0.794239]), np.array([0.134288, 0.233605, 0.131808, 0.159265, 0.963127, 0.416094,
+       0.202944, 0.424184])]
 
-
-responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out]
+responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out]
 
 def load_initial_data(function_number: int, include_set2: bool = True):
     ary_in = np.load(f'../data/raw/initial_data/function_{function_number}/initial_inputs.npy')
@@ -106,6 +108,7 @@ def get_function_data(function_number: int, include_set2: bool = True, include_o
         ary_out=np.append(ary_out, week7_out[function_number-1])
         ary_out=np.append(ary_out, week8_out[function_number-1])
         ary_out=np.append(ary_out, week9_out[function_number-1])
+        ary_out=np.append(ary_out, week10_out[function_number-1])
         ary_in=np.vstack((ary_in, week1_in[function_number-1]))
         ary_in=np.vstack((ary_in, week2_in[function_number-1]))
         ary_in=np.vstack((ary_in, week3_in[function_number-1]))
@@ -115,6 +118,7 @@ def get_function_data(function_number: int, include_set2: bool = True, include_o
         ary_in=np.vstack((ary_in, week7_in[function_number-1]))
         ary_in=np.vstack((ary_in, week8_in[function_number-1]))
         ary_in=np.vstack((ary_in, week9_in[function_number-1]))
+        ary_in=np.vstack((ary_in, week10_in[function_number-1]))
         
     return ary_in, ary_out
 
@@ -126,31 +130,35 @@ class FunctionInfo():
     default_lengthscale_ub = 20.0
     lengthscale_bounds_list = [(default_lengthscale_lb, default_lengthscale_ub)] * 8
     lengthscale_bounds_list[0] = (0.0001, 20) #f1
-    lengthscale_bounds_list[2] = (0.0001, 40) #f1
-    ucb_kappas = [0.8, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8] # only got successful calibration for first 3. Default to 0.8 for the rest (high because still exploring) 
+    lengthscale_bounds_list[2] = (0.0001, 40) #f3
+    constant_value_bounds_list = [(1e-5, 1e5)] * 8 # constant kernel default value bounds
+    constant_value_bounds_list[7] = (1e-5, 1e7) #f8
+    ucb_kappas = [0.4, 0.2, 0.2, 0.7, 0.6, 0.7, 0.4, 0.6]
+    #ucb_kappas = [0.8, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8] # only got successful calibration for first 3. Default to 0.8 for the rest (high because still exploring) 
                                                               # - except function 5 which is unimodal so can exploit more.
                                                               # Function 3 - aim is to reduce bad side effects of drug combination - have a maximum around 0.5,0.5,0.5 so from week 5 on, exploiting that
-    perturb_max_starts = [0,0,0,0,-0.055,0,0,0] #having trouble getting function 5 to explore a little more away from its maximum - nudge
-    kernel_params_list=[{"class": "RationalQuadratic", "alpha": 0.949},
-                   {"class": "RationalQuadratic", "alpha": 0.16},
-                   {"class": "Linear (no noise)", "alpha": 1.0},
-                   {"class": "RationalQuadratic", "alpha": 0.0607},
-                   {"class": "RationalQuadratic", "alpha": 0.327}, #f5 = mainly NaN
-                   {"class": "RationalQuadratic", "alpha":0.0417, "nu":2.5}, #f6 - mainly NaN
-                   {"class": "RationalQuadratic", "alpha": 0.308},
-                   {"class": "RBF", "alpha": 1.0}]
+    acq_xis = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1] # default to 0.1 for all functions                                                    
+    perturb_max_starts = [0,0,0,0,-0.055,0,0,0.1] #having trouble getting function 5 to explore a little more away from its maximum - nudge
+    kernel_params_list=[{"class": "RationalQuadratic", "alpha": 0.949, "alphabounds": (1e-5, 1e5)},
+                   {"class": "RationalQuadratic", "alpha": 0.16, "alphabounds": (1e-5, 1e5)},
+                   {"class": "Linear (no noise)", "alpha": 1.0, "alphabounds": (1e-5, 1e5)},
+                   {"class": "RationalQuadratic", "alpha": 0.0607, "alphabounds": (1e-5, 1e5)},
+                   {"class": "RationalQuadratic", "alpha": 0.327, "alphabounds": (1e-5, 1e5)}, #f5 = mainly NaN
+                   {"class": "RationalQuadratic", "alpha":0.0417, "alphabounds": (1e-5, 1e5), "nu":2.5}, #f6 - mainly NaN
+                   {"class": "RationalQuadratic", "alpha": 0.308, "alphabounds": (1e-5, 1e5)},
+                   {"class": "RBF", "alpha": 1.0, "alphabounds": (1e-5, 1e7)}]
 
     def __init__(self, function_number):
         self.function_number = function_number
         function_ix = function_number - 1
         self.kernel_lengthscale = self.rbf_lengthscales[function_ix]
         self.ucb_kappa = self.ucb_kappas[function_ix]
+        self.acq_xi = self.acq_xis[function_ix]
         self.kernel_params = self.kernel_params_list[function_ix]
         self.perturb_max_start = self.perturb_max_starts[function_ix]
         self.n_restarts_optimizer = 0 if self.kernel_params["class"] in ["RBF", "Linear (no noise)"] else 10 # use restarts optimizer for more complex kernels
         self.lengthscale_bounds = self.lengthscale_bounds_list[function_ix]
-
-
+        self.constant_value_bounds = self.constant_value_bounds_list[function_ix]
 
 
 def scale(function_num, values):
@@ -171,3 +179,24 @@ def scale(function_num, values):
 
     # Step 4: Restore signs
     return np.sign(values) * np.abs(scaled_values)
+
+def reduce(function_num, values):
+    """
+    Reduce the number of dimensions to the most important ones for the given function
+    """
+    important_dimensions = {}
+    important_dimensions = {8:[0,2,6]} # function 8: based on coefficients [-1.6245557  -0.46852827 -2.36121139 -0.50061563  0.15028904 -0.18675851 -1.20356151  0.24547701]
+    if function_num not in important_dimensions:
+        return values
+    return values[:, important_dimensions[function_num]]
+
+def is_close(new_x, existing_x, threshold = 0.1):
+    distances = np.linalg.norm(existing_x - new_x, axis=1)
+    min_distance = distances.min()
+    closest_existing = existing_x[distances.argmin()]
+    
+    too_close = min_distance < threshold
+    
+    return (too_close, min_distance, closest_existing)
+    
+    

@@ -30,21 +30,20 @@ def make_kernels_for_tests(lengthscale, lengthscale_lb = 0.001, lengthscale_ub =
 
     return kernels
 
-def make_kernels_with_const(sigma = 1.0, lengthscale_lb = 0.001, lengthscale_ub = 20.0):
-    lsb = (lengthscale_lb, lengthscale_ub)
+def make_candidate_kernels(function_info:mbbo.functions.FunctionInfo):
     #return {
     #    "RBF": RBF(length_scale=1.0, length_scale_bounds=lsb),
     #    "Matern_1.5": Matern(length_scale=1.0, nu=1.5, length_scale_bounds=lsb),
     #    "Matern_2.5": Matern(length_scale=1.0, nu=2.5, length_scale_bounds=lsb),
     #    "RationalQuadratic": RationalQuadratic(length_scale=1.0, alpha=1.0, length_scale_bounds=lsb),
     #    "DotProduct": DotProduct(sigma_0=sigma)}
-
+    c = C(1.0, constant_value_bounds = function_info.constant_value_bounds)
 
     return {
     #"RBF": C(1.0) * RBF(length_scale=1.0, length_scale_bounds=lsb),
-    "Matern_1.5": C(1.0) * Matern(length_scale=1.0, nu=1.5, length_scale_bounds=lsb),
-    "Matern_2.5": C(1.0) * Matern(length_scale=1.0, nu=2.5, length_scale_bounds=lsb),
-    "RationalQuadratic": C(1.0) * RationalQuadratic(length_scale=1.0, alpha=1.0, length_scale_bounds=lsb),
+    "Matern_1.5": c * Matern(nu=1.5, length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds),
+    "Matern_2.5": c * Matern(nu=2.5, length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds),
+    "RationalQuadratic": c * RationalQuadratic(length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds, alpha = function_info.kernel_params["alpha"], alpha_bounds = function_info.kernel_params["alphabounds"]),
     #"DotProduct": DotProduct(sigma_0=sigma) + C(1.0)
     }
 
@@ -60,21 +59,21 @@ def make_kernel_for_function(function_info:mbbo.functions.FunctionInfo, sigma = 
             case "Matern52":
                 kernel = Matern(nu = function_info.kernel_params["nu"], length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
             case "RationalQuadratic":
-                kernel = RationalQuadratic(alpha = function_info.kernel_params["alpha"], length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
+                kernel = RationalQuadratic(alpha = function_info.kernel_params["alpha"], alpha_bounds = function_info.kernel_params["alphabounds"], length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
             case _:
                 raise Exception (f"Kernel class {function_info.kernel_params["class"]} not matched")
     else: # with constant kernel
         match function_info.kernel_params["class"]:
             case "Linear (no noise)":
-                kernel = DotProduct(sigma_0=sigma) + C(1.0)
+                kernel = DotProduct(sigma_0=sigma) + C(1.0, constant_value_bounds = function_info.constant_value_bounds)
             case "RBF":
                 # can't get the constant kernel to work with RBF
                 #kernel = RBF(length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
-                kernel = C(1.0) * RBF(length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
+                kernel = C(1.0, constant_value_bounds = function_info.constant_value_bounds) * RBF(length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
             case "Matern52":
-                kernel = C(1.0) * Matern(nu = function_info.kernel_params["nu"], length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
+                kernel = C(1.0, constant_value_bounds = function_info.constant_value_bounds) * Matern(nu = function_info.kernel_params["nu"], length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
             case "RationalQuadratic":
-                kernel = C(1.0) * RationalQuadratic(alpha = function_info.kernel_params["alpha"], length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
+                kernel = C(1.0, constant_value_bounds = function_info.constant_value_bounds) * RationalQuadratic(alpha = function_info.kernel_params["alpha"], alpha_bounds = function_info.kernel_params["alphabounds"], length_scale=function_info.kernel_lengthscale, length_scale_bounds=function_info.lengthscale_bounds)
             case _:
                 raise Exception (f"Kernel class {function_info.kernel_params["class"]} not matched")
 
@@ -86,7 +85,8 @@ def choose_kernel(function_number):
     info_f = FunctionInfo(function_number)
     X,y = get_function_data(function_number)
     y = mbbo.functions.scale(function_number, y)
-    ks = make_kernels_with_const(lengthscale_lb=info_f.lengthscale_bounds[0], lengthscale_ub=info_f.lengthscale_bounds[1])
+    X = mbbo.functions.reduce(function_number,X)
+    ks = make_candidate_kernels(info_f)
     results = {}
     for name, kernel in ks.items():
         # Dictionary to store results
@@ -114,7 +114,7 @@ def choose_kernel_3():
     for i in range(3):
         print(f"Omitting dimension {i}")
         X_ = np.delete(X, i, 1)
-        ks = make_kernels_with_const(lengthscale_lb=info_f.lengthscale_bounds[0], lengthscale_ub=info_f.lengthscale_bounds[1])
+        ks = make_candidate_kernels(info_f)
         results = {}
         for name, kernel in ks.items():
             # Dictionary to store results

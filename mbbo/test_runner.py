@@ -44,7 +44,8 @@ def test_on_oned(rbf_lengthscale, ucb_acquisition_kappa, test_oned_function, max
         model.fit(X, Y)
             
         # optimize the acquisition function
-        result = optimize.minimize(lambda x: -mbbo.acquisition.UCB(x, model, ucb_acquisition_kappa), x0=bounds_midpoint(input_bounds), bounds=input_bounds)
+        acq = mbbo.acquisition.UCB(X, model, ucb_acquisition_kappa)
+        result = acq.maximize(initial_x=bounds_midpoint(input_bounds), bounds=input_bounds)
         x_new = result.x
         y_new = test_oned_function.call_function(x_new)
         
@@ -97,7 +98,10 @@ def test_on_twod(rbf_lengthscale, ucb_acquisition_kappa, test_twod_function, max
         model.fit(X, Y)
             
         # optimize the acquisition function
-        result = optimize.minimize(lambda x: -mbbo.acquisition.UCB(x, model, ucb_acquisition_kappa), x0=initial_x, bounds=twod_input_bounds)
+        #x0 = bounds_midpoint(twod_input_bounds)
+        acq = mbbo.acquisition.UCB(X, model, kappa=ucb_acquisition_kappa)
+        result = acq.maximize(initial_x=initial_x, bounds=input_bounds)
+
         x_new = result.x
         y_new = test_twod_function.call_function(x_new)
         
@@ -217,7 +221,9 @@ def test_on_n_d(test_profile: TestProfile, kernel, ucb_acquisition_kappa, test_f
         model.fit(X, Y)
             
         # optimize the acquisition function
-        result = optimize.minimize(lambda x: -mbbo.acquisition.UCB(x, model, ucb_acquisition_kappa), x0=initial_x, bounds=bounds)
+        acq = mbbo.acquisition.UCB(X, model, kappa=ucb_acquisition_kappa)
+        result = acq.maximize(initial_x=initial_x, bounds=input_bounds)
+        
         x_new = result.x
         y_new = test_function.call_function([x_new])
         

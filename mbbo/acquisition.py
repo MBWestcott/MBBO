@@ -1,54 +1,77 @@
-from scipy.stats import norm
 import numpy as np
+from scipy import optimize
+from scipy.stats import norm
 
-def UCB(x, model, ucb_kappa):
-    mean, std = model.predict(x.reshape(1, -1), return_std=True)
-    return mean + ucb_kappa * std
+class AcquisitionFunction:
+    def __init__(self, x, model, best_f=None, xi=0.1, kappa=0.8):
+        """
+        Base class for acquisition functions.
 
-def EI(x, model, best_f, xi=0.01):
-    """
-    Expected Improvement (EI) acquisition function.
+        Parameters:
+        -----------
+        model : object
+            A surrogate model with a predict method (e.g., GaussianProcessRegressor).
+        x : array-like
+            The input point(s) at which to evaluate the acquisition function.
+        best_f : float, optional
+            The best observed function value (used for EI and PI).
+        xi : float, optional
+            Exploration-exploitation tradeoff parameter. In UCB, xi is used as kappa.
+        """
+        self.model = model
+        self.x = np.array(x)
+        self.best_f = best_f
+        self.xi = xi
+        self.kappa = kappa
 
-    Parameters:
-    x : array-like
-        Input point(s) to evaluate the acquisition function.
-    model : GaussianProcessRegressor
-        Trained GP model to predict mean and standard deviation.
-    best_f : float
-        Best observed objective function value.
-    xi : float, optional (default=0.01)
-        Exploration-exploitation tradeoff parameter.
+    def apply(self, x):
+        """
+        Evaluate the acquisition function at x using self.model.
+        This method should be overridden by subclasses.
+        
+        Parameters:
+        -----------
+        x : array-like
+            The input point(s) to evaluate the acquisition function.
+        
+        Returns:
+        --------
+        float
+            The computed acquisition function value.
+        """
+        raise NotImplementedError("Subclasses must implement the apply() method.")
+    
+    def maximize(self, initial_x, bounds):
+        return optimize.minimize( lambda arg: -self.apply(arg), x0=initial_x, bounds=bounds)
 
-    Returns:
-    float
-        EI value at x.
-    """
-    mean, std = model.predict(x.reshape(1, -1), return_std=True)
-    std = std + 1e-9  # Avoid division by zero
-    improvement = mean - best_f - xi
-    Z = improvement / std
-    return improvement * norm.cdf(Z) + std * norm.pdf(Z)
+class UCB(AcquisitionFunction):
+    def apply(self, x):
+        """
+        Upper Confidence Bound (UCB) acquisition function.
+        Here, self.xi is used as the exploration parameter (often called kappa).
+        """
+        mean, std = self.model.predict(x.reshape(1, -1), return_std=True)
+        return mean + self.kappa * std
 
+class EI(AcquisitionFunction):
+    def apply(self, x):
+        """
+        Expected Improvement (EI) acquisition function.
+        Uses self.best_f as the current best observation and self.xi for exploration.
+        """
+        mean, std = self.model.predict(x.reshape(1, -1), return_std=True)
+        std = std + 1e-9  # Avoid division by zero
+        improvement = mean - self.best_f - self.xi
+        Z = improvement / std
+        return improvement * norm.cdf(Z) + std * norm.pdf(Z)
 
-def PI(x, model, best_f, xi=0.01):
-    """
-    Probability of Improvement (PI) acquisition function.
-
-    Parameters:
-    x : array-like
-        Input point(s) to evaluate the acquisition function.
-    model : GaussianProcessRegressor
-        Trained GP model to predict mean and standard deviation.
-    best_f : float
-        Best observed objective function value.
-    xi : float, optional (default=0.01)
-        Exploration-exploitation tradeoff parameter.
-
-    Returns:
-    float
-        PI value at x.
-    """
-    mean, std = model.predict(x.reshape(1, -1), return_std=True)
-    std = std + 1e-9  # Avoid division by zero
-    Z = (mean - best_f - xi) / std
-    return norm.cdf(Z)
+class PI(AcquisitionFunction):
+    def apply(self, x):
+        """
+        Probability of Improvement (PI) acquisition function.
+        Uses self.best_f as the current best observation and self.xi for exploration.
+        """
+        mean, std = self.model.predict(x.reshape(1, -1), return_std=True)
+        std = std + 1e-9  # Avoid division by zero
+        Z = (mean - self.best_f - self.xi) / std
+        return norm.cdf(Z)
