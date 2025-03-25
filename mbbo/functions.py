@@ -83,7 +83,14 @@ week10_out = [-1.734852475761745e-60, 0.46227707004415614, -0.009638954094570346
 week10_in = [np.array([0.798651, 0.868125]), np.array([0.747885, 0.473503]), np.array([0.499995, 0.5     , 0.5     ]), np.array([0.39583 , 0.371021, 0.410062, 0.404591]), np.array([0.25353 , 0.884504, 0.900956, 0.824813]), np.array([0.364457, 0.356583, 0.616022, 0.799995, 0.006197]), np.array([0.10458 , 0.251129, 0.512889, 0.201087, 0.332013, 0.794239]), np.array([0.134288, 0.233605, 0.131808, 0.159265, 0.963127, 0.416094,
        0.202944, 0.424184])]
 
-responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out]
+week11_out = [5.268125071343981e-05, 0.26354284901897973, -0.018755122077235682, 0.4429214317724761, 1126.4772097185373, -0.1487138892266534, 2.711784867091037, 9.9833600423085]
+
+week11_in = [np.array([0.580172, 0.588216]), np.array([0.751489, 0.488207]), np.array([0.499995, 0.52    , 0.5     ]), 
+             np.array([0.396506, 0.371179, 0.408664, 0.406183]), np.array([0.250547, 0.881019, 0.898804, 0.829029]), 
+             np.array([0.358861, 0.36118 , 0.620833, 0.798651, 0.012107]), np.array([0.138608, 0.241216, 0.512483, 0.227211, 0.353446, 0.779906]), 
+             np.array([0.154828, 0.150755, 0.135927, 0.167159, 0.814302, 0.413704, 0.196015, 0.437325])]
+
+responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out, week11_out]
 
 def load_initial_data(function_number: int, include_set2: bool = True):
     ary_in = np.load(f'../data/raw/initial_data/function_{function_number}/initial_inputs.npy')
@@ -109,6 +116,7 @@ def get_function_data(function_number: int, include_set2: bool = True, include_o
         ary_out=np.append(ary_out, week8_out[function_number-1])
         ary_out=np.append(ary_out, week9_out[function_number-1])
         ary_out=np.append(ary_out, week10_out[function_number-1])
+        ary_out=np.append(ary_out, week11_out[function_number-1])
         ary_in=np.vstack((ary_in, week1_in[function_number-1]))
         ary_in=np.vstack((ary_in, week2_in[function_number-1]))
         ary_in=np.vstack((ary_in, week3_in[function_number-1]))
@@ -119,6 +127,7 @@ def get_function_data(function_number: int, include_set2: bool = True, include_o
         ary_in=np.vstack((ary_in, week8_in[function_number-1]))
         ary_in=np.vstack((ary_in, week9_in[function_number-1]))
         ary_in=np.vstack((ary_in, week10_in[function_number-1]))
+        ary_in=np.vstack((ary_in, week11_in[function_number-1]))
         
     return ary_in, ary_out
 
