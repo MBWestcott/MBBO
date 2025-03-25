@@ -1,6 +1,8 @@
 import numpy as np
 from scipy import optimize
 from scipy.stats import norm
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.ensemble import RandomForestRegressor
 
 class AcquisitionFunction:
     def __init__(self, x, model, best_f=None, xi=0.1, kappa=0.8):
@@ -44,22 +46,35 @@ class AcquisitionFunction:
     def maximize(self, initial_x, bounds):
         return optimize.minimize( lambda arg: -self.apply(arg), x0=initial_x, bounds=bounds)
 
+    def do_predict(self, model, x):
+        if isinstance(model, GaussianProcessRegressor):
+            mean, std = model.predict(x.reshape(1, -1), return_std=True)
+            return mean, std
+        elif isinstance(self.model, RandomForestRegressor):
+            # doesn't natively return std so need to get it from individual estimators
+            tree_predictions = np.array([tree.predict(x.reshape(1, -1)) for tree in self.model.estimators_])
+            mean = tree_predictions.mean(axis=0)
+            std = tree_predictions.std(axis=0)
+            return mean, std
+        else:
+            raise ValueError("Model must be either GaussianProcessRegressor or RandomForestRegressor")
+        
 class UCB(AcquisitionFunction):
     def apply(self, x):
         """
         Upper Confidence Bound (UCB) acquisition function.
         Here, self.xi is used as the exploration parameter (often called kappa).
         """
-        mean, std = self.model.predict(x.reshape(1, -1), return_std=True)
-        return mean + self.kappa * std
-
+        mean, std = self.do_predict(self.model, x)
+        return mean + self.kappa * std        
+        
 class EI(AcquisitionFunction):
     def apply(self, x):
         """
         Expected Improvement (EI) acquisition function.
         Uses self.best_f as the current best observation and self.xi for exploration.
         """
-        mean, std = self.model.predict(x.reshape(1, -1), return_std=True)
+        mean, std = self.do_predict(self.model, x)
         std = std + 1e-9  # Avoid division by zero
         improvement = mean - self.best_f - self.xi
         Z = improvement / std
@@ -71,7 +86,7 @@ class PI(AcquisitionFunction):
         Probability of Improvement (PI) acquisition function.
         Uses self.best_f as the current best observation and self.xi for exploration.
         """
-        mean, std = self.model.predict(x.reshape(1, -1), return_std=True)
+        mean, std = self.do_predict(self.model, x)
         std = std + 1e-9  # Avoid division by zero
         Z = (mean - self.best_f - self.xi) / std
         return norm.cdf(Z)

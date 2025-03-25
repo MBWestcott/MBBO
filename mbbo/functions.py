@@ -90,6 +90,7 @@ week11_in = [np.array([0.580172, 0.588216]), np.array([0.751489, 0.488207]), np.
              np.array([0.358861, 0.36118 , 0.620833, 0.798651, 0.012107]), np.array([0.138608, 0.241216, 0.512483, 0.227211, 0.353446, 0.779906]), 
              np.array([0.154828, 0.150755, 0.135927, 0.167159, 0.814302, 0.413704, 0.196015, 0.437325])]
 
+queries = [week1_in, week2_in, week3_in, week4_in, week5_in, week6_in, week7_in, week8_in, week9_in, week10_in, week11_in]
 responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out, week11_out]
 
 def load_initial_data(function_number: int, include_set2: bool = True):
@@ -106,29 +107,10 @@ def load_initial_data(function_number: int, include_set2: bool = True):
 def get_function_data(function_number: int, include_set2: bool = True, include_observed: bool = True):
     ary_in, ary_out = load_initial_data(function_number, include_set2)
     if include_observed:    
-        ary_out=np.append(ary_out, week1_out[function_number-1])
-        ary_out=np.append(ary_out, week2_out[function_number-1])
-        ary_out=np.append(ary_out, week3_out[function_number-1])
-        ary_out=np.append(ary_out, week4_out[function_number-1])
-        ary_out=np.append(ary_out, week5_out[function_number-1])
-        ary_out=np.append(ary_out, week6_out[function_number-1])
-        ary_out=np.append(ary_out, week7_out[function_number-1])
-        ary_out=np.append(ary_out, week8_out[function_number-1])
-        ary_out=np.append(ary_out, week9_out[function_number-1])
-        ary_out=np.append(ary_out, week10_out[function_number-1])
-        ary_out=np.append(ary_out, week11_out[function_number-1])
-        ary_in=np.vstack((ary_in, week1_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week2_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week3_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week4_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week5_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week6_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week7_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week8_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week9_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week10_in[function_number-1]))
-        ary_in=np.vstack((ary_in, week11_in[function_number-1]))
-        
+        for r in responses:
+            ary_out = np.append(ary_out, r[function_number - 1])
+        for q in queries:
+            ary_in = np.vstack((ary_in, q[function_number - 1]))
     return ary_in, ary_out
 
 class FunctionInfo():
@@ -142,7 +124,8 @@ class FunctionInfo():
     lengthscale_bounds_list[2] = (0.0001, 40) #f3
     constant_value_bounds_list = [(1e-5, 1e5)] * 8 # constant kernel default value bounds
     constant_value_bounds_list[7] = (1e-5, 1e7) #f8
-    ucb_kappas = [0.4, 0.2, 0.2, 0.7, 0.6, 0.7, 0.4, 0.6]
+    ucb_kappas = [0.4, 0.2, 0.2, 0.7, 0.6, 0.7, 0.4, 0.6] # halved for exploitation
+    #ucb_kappas = ucb_kappas * 4 # increase for random forest regressor
     #ucb_kappas = [0.8, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8] # only got successful calibration for first 3. Default to 0.8 for the rest (high because still exploring) 
                                                               # - except function 5 which is unimodal so can exploit more.
                                                               # Function 3 - aim is to reduce bad side effects of drug combination - have a maximum around 0.5,0.5,0.5 so from week 5 on, exploiting that
