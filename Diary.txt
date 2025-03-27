@@ -511,3 +511,18 @@ Monday w12
 0.352280-0.366968-0.627038-0.798081-0.000000
 0.151874-0.231648-0.520087-0.236592-0.363845-0.772516
 0.151610-0.188692-0.138602-0.160302-0.944244-0.509145-0.211368-0.750638
+
+
+Thu week 12:
+first 3 with manual overrides (1 looks like the 2 maxima are now showing but function doesn't want to explore it - next time just manually cut down bounds?)
+2 - force more exploration
+3 - fn is stuck exactly on max - want to explore slightly more than that!
+fn 8 still using old gaussian process calibration
+	   0.480000-0.270000
+	   0.330000-0.440000
+	   0.498000-0.498000-0.500020
+	   0.391959-0.380273-0.406908-0.406706
+	   0.366656-0.979958-0.998240-0.930244
+	   0.350331-0.368590-0.628943-0.797925-0.000000
+	   0.157764-0.227863-0.525279-0.240713-0.369344-0.766710
+	   0.141255-0.132977-0.107644-0.235194-0.723225-0.563478-0.196206-0.489455

@@ -90,8 +90,12 @@ week11_in = [np.array([0.580172, 0.588216]), np.array([0.751489, 0.488207]), np.
              np.array([0.358861, 0.36118 , 0.620833, 0.798651, 0.012107]), np.array([0.138608, 0.241216, 0.512483, 0.227211, 0.353446, 0.779906]), 
              np.array([0.154828, 0.150755, 0.135927, 0.167159, 0.814302, 0.413704, 0.196015, 0.437325])]
 
-queries = [week1_in, week2_in, week3_in, week4_in, week5_in, week6_in, week7_in, week8_in, week9_in, week10_in, week11_in]
-responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out, week11_out]
+week12_out = [-6.925388810586621e-16, 0.5708236653648293, -0.041690964649215845, 0.4435486780130913, 1127.910712944417, -0.2216771831190694, 2.75544898316302, 9.9798331901746]
+week12_in = [np.array([0.55, 0.49]), np.array([0.737314, 0.482462]), np.array([0.499995, 0.5     , 0.499995]), np.array([0.396562, 0.371215, 0.408446, 0.40644 ]), np.array([0.250935, 0.881475, 0.899084, 0.828472]), np.array([0.35228 , 0.366968, 0.627038, 0.798081, 0.      ]), np.array([0.151874, 0.231648, 0.520087, 0.236592, 0.363845, 0.772516]), np.array([0.15161 , 0.188692, 0.138602, 0.160302, 0.944244, 0.509145,
+       0.211368, 0.750638])]
+
+queries = [week1_in, week2_in, week3_in, week4_in, week5_in, week6_in, week7_in, week8_in, week9_in, week10_in, week11_in, week12_in]
+responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out, week11_out, week12_out]
 
 def load_initial_data(function_number: int, include_set2: bool = True):
     ary_in = np.load(f'../data/raw/initial_data/function_{function_number}/initial_inputs.npy')
@@ -124,18 +128,19 @@ class FunctionInfo():
     lengthscale_bounds_list[2] = (0.0001, 40) #f3
     constant_value_bounds_list = [(1e-5, 1e5)] * 8 # constant kernel default value bounds
     constant_value_bounds_list[7] = (1e-5, 1e7) #f8
-    ucb_kappas = [0.4, 0.2, 0.2, 0.7, 0.6, 0.7, 0.4, 0.6] # halved for exploitation
+    ucb_kappas = [0.8, 0.5, 0.2, 0.7, 1, 0.7, 0.4, 0.4] # lowered for exploitation excepr 1,2,4,5
     #ucb_kappas = ucb_kappas * 4 # increase for random forest regressor
+    #ucb_kappas = [2, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8]
     #ucb_kappas = [0.8, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8] # only got successful calibration for first 3. Default to 0.8 for the rest (high because still exploring) 
                                                               # - except function 5 which is unimodal so can exploit more.
                                                               # Function 3 - aim is to reduce bad side effects of drug combination - have a maximum around 0.5,0.5,0.5 so from week 5 on, exploiting that
     acq_xis = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1] # default to 0.1 for all functions                                                    
-    perturb_max_starts = [0,0,0,0,-0.055,0,0,0.1] #having trouble getting function 5 to explore a little more away from its maximum - nudge
+    perturb_max_starts = [0,0,0,0,0.055,0,0,0.1] #having trouble getting function 5 to explore a little more away from its maximum - nudge
     kernel_params_list=[{"class": "RationalQuadratic", "alpha": 0.949, "alphabounds": (1e-5, 1e5)},
-                   {"class": "RationalQuadratic", "alpha": 0.16, "alphabounds": (1e-5, 1e5)},
+                   {"class": "RationalQuadratic", "alpha": 1.0, "alphabounds": (1e-5, 1e5)},
                    {"class": "Linear (no noise)", "alpha": 1.0, "alphabounds": (1e-5, 1e5)},
-                   {"class": "RationalQuadratic", "alpha": 0.0607, "alphabounds": (1e-5, 1e5)},
-                   {"class": "RationalQuadratic", "alpha": 0.327, "alphabounds": (1e-5, 1e5)}, #f5 = mainly NaN
+                   {"class": "RationalQuadratic", "alpha": 0.6, "alphabounds": (1e-5, 1e5)},
+                   {"class": "RationalQuadratic", "alpha": 0.6, "alphabounds": (1e-5, 1e5)}, #f5 = mainly NaN
                    {"class": "RationalQuadratic", "alpha":0.0417, "alphabounds": (1e-5, 1e5), "nu":2.5}, #f6 - mainly NaN
                    {"class": "RationalQuadratic", "alpha": 0.308, "alphabounds": (1e-5, 1e5)},
                    {"class": "RBF", "alpha": 1.0, "alphabounds": (1e-5, 1e7)}]
