@@ -556,3 +556,40 @@ close to [0.157764 0.227863 0.525279 0.240713 0.369344 0.76671 ] with distance 0
 
 0.074853-0.113799-0.139231-0.071096-0.747064-0.495198-0.166412-0.533955 (from previous gaussians)
 0.000000-0.000000-0.000000-0.000000-0.999999-0.036391-0.000000-0.999999
+
+
+
+Mon week 14:
+#Swing to exploitation. Introduce grid search kappa or xi as far as feasible.
+f1 - despite having a new maximum (got by manually overriding), grid search of UCB kappas and PI xi's still can't get a more plausible suggestion than an earlier maximum so using Excel fill function to extend degree of exploration that gained the new maximum in same direction!
+0.643514-0.599920
+
+f2 - same
+0.500285-0.500043
+
+f3 - same
+0.499995-0.500021-0.500000
+
+f4 - grid search worked to suggest point closest to max...but even closer to another point that was not max, so overrode again
+0.389787-0.371332-0.407441-0.407587
+
+f5 - grid search worked - picked highest kappa before it reverted to existing max
+parameter (kappa or xi): 2.61
+Closest to max!
+0.416112-0.999999-0.999940-0.980993
+
+f6 - param_grid(6, 0.1, 0.21, 0.001, "EI") # grid search UCB kappas (though came out very close to max)
+0.358843-0.361193-0.620844-0.798652-0.012069
+
+f7
+param_grid(6, 0.1, 0.21, 0.001, "EI") # grid search UCB kappas
+parameter (kappa or xi): 0.0001
+Closest to max!
+0.155267-0.187186-0.614920-0.213279-0.445264-0.787365
+close to [0.155885 0.227187 0.531089 0.239434 0.371577 0.761383] with distance 0.12416563445520959
+
+f8
+EI, parameter (kappa or xi): 1.0222
+Closest to max!
+0.127521-0.183186-0.107987-0.140578-0.816329-0.494039-0.217208-0.525749
+close to [0.127542 0.183196 0.108019 0.140588 0.816319 0.494041 0.217229 0.525747] with distance 4.699039460685277e-05

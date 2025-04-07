@@ -138,22 +138,25 @@ class FunctionInfo():
     default_lengthscale_ub = 20.0
     lengthscale_bounds_list = [(default_lengthscale_lb, default_lengthscale_ub)] * 8
     lengthscale_bounds_list[0] = (0.0001, 20) #f1
-    lengthscale_bounds_list[2] = (0.0001, 40) #f3
+    lengthscale_bounds_list[1] = (0.0001, 50)
+    lengthscale_bounds_list[2] = (0.0001, 80) #f3
     constant_value_bounds_list = [(1e-5, 1e5)] * 8 # constant kernel default value bounds
     constant_value_bounds_list[7] = (1e-5, 1e7) #f8
-    ucb_kappas = [0.8, 0.5, 0.2, 0.7, 1, 0.7, 0.4, 0.4] # lowered for exploitation excepr 1,2,4,5
+    ucb_kappas = [0.8, 0.5, 0.2, 0.7, 0.1, 0.7, 0.4, 0.4] # lowered for exploitation excepr 1,2,4,5
+    #ucb_kappas = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
     #ucb_kappas = ucb_kappas * 4 # increase for random forest regressor
     #ucb_kappas = [2, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8]
     #ucb_kappas = [0.8, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8] # only got successful calibration for first 3. Default to 0.8 for the rest (high because still exploring) 
                                                               # - except function 5 which is unimodal so can exploit more.
                                                               # Function 3 - aim is to reduce bad side effects of drug combination - have a maximum around 0.5,0.5,0.5 so from week 5 on, exploiting that
-    acq_xis = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1] * 3 # default to 0.1 for all functions                                                    
-    perturb_max_starts = [0,0,0,0,0.055,0,0,0.1] #having trouble getting function 5 to explore a little more away from its maximum - nudge
+    acq_xis = [2.9, 2.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9] # default to 0.1 for all functions                                                    
+    #perturb_max_starts = [0,0,0,0,0.055,0,0,0.1] #having trouble getting function 5 to explore a little more away from its maximum - nudge
+    perturb_max_starts = [0,0,0,0,0,0,0,0] 
     kernel_params_list=[{"class": "RationalQuadratic", "alpha": 0.949, "alphabounds": (1e-5, 1e5)},
-                   {"class": "RationalQuadratic", "alpha": 1.0, "alphabounds": (1e-5, 1e5)},
+                   {"class": "RationalQuadratic", "alpha": 2.0, "alphabounds": (1e-8, 1e5)},
                    {"class": "Linear (no noise)", "alpha": 1.0, "alphabounds": (1e-5, 1e5)},
                    {"class": "RationalQuadratic", "alpha": 0.6, "alphabounds": (1e-5, 1e5)},
-                   {"class": "RationalQuadratic", "alpha": 0.6, "alphabounds": (1e-5, 1e5)}, #f5 = mainly NaN
+                   {"class": "RationalQuadratic", "alpha": 0.2, "alphabounds": (1e-5, 1e5)}, #f5 = mainly NaN
                    {"class": "RationalQuadratic", "alpha":0.0417, "alphabounds": (1e-5, 1e5), "nu":2.5}, #f6 - mainly NaN
                    {"class": "RationalQuadratic", "alpha": 0.308, "alphabounds": (1e-5, 1e5)},
                    {"class": "RBF", "alpha": 1.0, "alphabounds": (1e-5, 1e7)}]
