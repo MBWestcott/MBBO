@@ -94,8 +94,21 @@ week12_out = [-6.925388810586621e-16, 0.5708236653648293, -0.041690964649215845,
 week12_in = [np.array([0.55, 0.49]), np.array([0.737314, 0.482462]), np.array([0.499995, 0.5     , 0.499995]), np.array([0.396562, 0.371215, 0.408446, 0.40644 ]), np.array([0.250935, 0.881475, 0.899084, 0.828472]), np.array([0.35228 , 0.366968, 0.627038, 0.798081, 0.      ]), np.array([0.151874, 0.231648, 0.520087, 0.236592, 0.363845, 0.772516]), np.array([0.15161 , 0.188692, 0.138602, 0.160302, 0.944244, 0.509145,
        0.211368, 0.750638])]
 
-queries = [week1_in, week2_in, week3_in, week4_in, week5_in, week6_in, week7_in, week8_in, week9_in, week10_in, week11_in, week12_in]
-responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out, week11_out, week12_out]
+week13_out = [-1.734852475761745e-60, 0.5887408774661069, -0.01166535120889699, 0.435657387239925, 1137.9195602632335, -0.23233602537565953, 2.550096898001736, 9.9945291309846]
+week13_in = [np.array([0.798651, 0.868125]), np.array([0.747885, 0.473503]), np.array([0.499995, 0.5     , 0.5     ]), np.array([0.39583 , 0.371021, 0.410062, 0.404591]), np.array([0.25353 , 0.884504, 0.900956, 0.824813]), np.array([0.364457, 0.356583, 0.616022, 0.799995, 0.006197]), np.array([0.10458 , 0.251129, 0.512889, 0.201087, 0.332013, 0.794239]), np.array([0.127542, 0.183196, 0.108019, 0.140588, 0.816319, 0.494041,
+       0.217229, 0.525747])]
+
+
+week14_out = [-3.237793504060581e-19, -0.07630245334315977, -0.003828212300923771, 0.2811526237409194, 3412.670037726836, -0.21588726740765765, 2.7745126189498346, 9.979321412206]
+week14_in = [np.array([0.48, 0.27]), np.array([0.33, 0.44]), np.array([0.498  , 0.498  , 0.50002]), np.array([0.391959, 0.380273, 0.406908, 0.406706]), np.array([0.366656, 0.979958, 0.99824 , 0.930244]), np.array([0.350331, 0.36859 , 0.628943, 0.797925, 0.      ]), np.array([0.157764, 0.227863, 0.525279, 0.240713, 0.369344, 0.76671 ]), np.array([0.141255, 0.132977, 0.107644, 0.235194, 0.723225, 0.563478,
+       0.196206, 0.489455])]
+
+week15_out = [0.5198124628573706, 0.8584016928716146, -0.009081571661836449, 0.28323120083276665, 4266.666562034985, -0.22589366304223552, 2.7831835147437474, 9.9868265981395]
+week15_in = [np.array([0.62 , 0.607]), np.array([0.500271, 0.500041]), np.array([0.499995, 0.499985, 0.5     ]), np.array([0.391351, 0.380243, 0.407555, 0.406354]), np.array([0.413634, 0.999999, 0.999999, 0.97853 ]), np.array([0.348246, 0.37055 , 0.631251, 0.797562, 0.      ]), np.array([0.155885, 0.227187, 0.531089, 0.239434, 0.371577, 0.761383]), np.array([0.074853, 0.113799, 0.139231, 0.071096, 0.747064, 0.495198,
+       0.166412, 0.533955])]
+
+queries = [week1_in, week2_in, week3_in, week4_in, week5_in, week6_in, week7_in, week8_in, week9_in, week10_in, week11_in, week12_in, week13_in, week14_in, week15_in]
+responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out, week11_out, week12_out, week13_out, week14_out, week15_out]
 
 def load_initial_data(function_number: int, include_set2: bool = True):
     ary_in = np.load(f'../data/raw/initial_data/function_{function_number}/initial_inputs.npy')
@@ -134,7 +147,7 @@ class FunctionInfo():
     #ucb_kappas = [0.8, 0.5, 0.00001, 0.8, 0.4, 0.8, 0.8, 0.8] # only got successful calibration for first 3. Default to 0.8 for the rest (high because still exploring) 
                                                               # - except function 5 which is unimodal so can exploit more.
                                                               # Function 3 - aim is to reduce bad side effects of drug combination - have a maximum around 0.5,0.5,0.5 so from week 5 on, exploiting that
-    acq_xis = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1] # default to 0.1 for all functions                                                    
+    acq_xis = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1] * 3 # default to 0.1 for all functions                                                    
     perturb_max_starts = [0,0,0,0,0.055,0,0,0.1] #having trouble getting function 5 to explore a little more away from its maximum - nudge
     kernel_params_list=[{"class": "RationalQuadratic", "alpha": 0.949, "alphabounds": (1e-5, 1e5)},
                    {"class": "RationalQuadratic", "alpha": 1.0, "alphabounds": (1e-5, 1e5)},

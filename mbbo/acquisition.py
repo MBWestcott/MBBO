@@ -18,7 +18,9 @@ class AcquisitionFunction:
         best_f : float, optional
             The best observed function value (used for EI and PI).
         xi : float, optional
-            Exploration-exploitation tradeoff parameter. In UCB, xi is used as kappa.
+            Exploration-exploitation tradeoff parameter.
+        kappa : float, optional
+            For UCB - weights the standard deviation towards exploration.
         """
         self.model = model
         self.x = np.array(x)
@@ -63,7 +65,6 @@ class UCB(AcquisitionFunction):
     def apply(self, x):
         """
         Upper Confidence Bound (UCB) acquisition function.
-        Here, self.xi is used as the exploration parameter (often called kappa).
         """
         mean, std = self.do_predict(self.model, x)
         return mean + self.kappa * std        
