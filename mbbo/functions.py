@@ -107,8 +107,11 @@ week15_out = [0.5198124628573706, 0.8584016928716146, -0.009081571661836449, 0.2
 week15_in = [np.array([0.62 , 0.607]), np.array([0.500271, 0.500041]), np.array([0.499995, 0.499985, 0.5     ]), np.array([0.391351, 0.380243, 0.407555, 0.406354]), np.array([0.413634, 0.999999, 0.999999, 0.97853 ]), np.array([0.348246, 0.37055 , 0.631251, 0.797562, 0.      ]), np.array([0.155885, 0.227187, 0.531089, 0.239434, 0.371577, 0.761383]), np.array([0.074853, 0.113799, 0.139231, 0.071096, 0.747064, 0.495198,
        0.166412, 0.533955])]
 
-queries = [week1_in, week2_in, week3_in, week4_in, week5_in, week6_in, week7_in, week8_in, week9_in, week10_in, week11_in, week12_in, week13_in, week14_in, week15_in]
-responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out, week11_out, week12_out, week13_out, week14_out, week15_out]
+week16_out = [0.12858522868059355, 0.7594857580372698, -0.01892850637671267, 0.4083453366764549, 4300.026893643007, -0.17805323503023138, 2.0888427777049263, 9.9945289846614]
+week16_in = [np.array([0.643514, 0.59992 ]), np.array([0.500285, 0.500043]), np.array([0.499995, 0.500021, 0.5     ]), np.array([0.389787, 0.371332, 0.407441, 0.407587]), np.array([0.416112, 0.999999, 0.99994 , 0.980993]), np.array([0.358843, 0.361193, 0.620844, 0.798652, 0.012069]), np.array([0.155267, 0.187186, 0.61492 , 0.213279, 0.445264, 0.787365]), np.array([0.127521, 0.183186, 0.107987, 0.140578, 0.816329, 0.494039,
+       0.217208, 0.525749])]
+queries = [week1_in, week2_in, week3_in, week4_in, week5_in, week6_in, week7_in, week8_in, week9_in, week10_in, week11_in, week12_in, week13_in, week14_in, week15_in, week16_in]
+responses = [week1_out, week2_out, week3_out, week4_out, week5_out, week6_out, week7_out, week8_out, week9_out, week10_out, week11_out, week12_out, week13_out, week14_out, week15_out, week16_out]
 
 def load_initial_data(function_number: int, include_set2: bool = True):
     ary_in = np.load(f'../data/raw/initial_data/function_{function_number}/initial_inputs.npy')
