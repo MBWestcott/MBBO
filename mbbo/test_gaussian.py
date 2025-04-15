@@ -96,14 +96,6 @@ class two_d_test:
 # week 4 - extend to any number of dimensions and any number of peaks
 class n_d_test:
 
-    #def __init__(self, sigma1=0.1, sigma2=0.1, mu1=[0.3,0.3], mu2=[0.7,0.7], alpha1=1, alpha2=0.5):
-    #    self.sigma1 = sigma1
-    #    self.sigma2 = sigma2
-    #    self.mu1 = mu1
-    #    self.mu2 = mu2
-    #    self.alpha1 = alpha1
-    #    self.alpha2 = alpha2
-
     def __init__(self, sigma, mu, alpha):
         self.sigma = sigma
         self.mu = mu
@@ -121,13 +113,6 @@ class n_d_test:
     mu=[]
     alpha=[]
     
-    #sigma1 = 0.1
-    #sigma2 = 0.1
-    #mu1 = [0.3,0.3]
-    #mu2 = [0.7,0.7]
-    #alpha1 = 1
-    #alpha2 = 0.5
-
     def call_function(self, X):
         """
         Bimodal function f(x0, x1) in [0, 1]^2 -> [0, 1].
